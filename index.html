@@ -313,7 +313,7 @@ function confetti(x,y,n){x=x||W/2;y=y||H/2;n=n||90;const cols=['#ff4fa3','#ffd76
 for(let i=0;i<n;i++){const a=Math.random()*6.28,v=Math.random()*9+3;C.push({x,y,vx:Math.cos(a)*v,vy:Math.sin(a)*v-5,g:.22,s:Math.random()*7+3,c:cols[i%6],l:110+Math.random()*60,r:Math.random()*6})}}
 function stepConfetti(){fc.clearRect(0,0,W,H);C=C.filter(p=>p.l-->0);C.forEach(p=>{p.vy+=p.g;p.x+=p.vx;p.y+=p.vy;p.vx*=.99;p.r+=.2;fc.save();fc.translate(p.x,p.y);fc.rotate(p.r);fc.globalAlpha=Math.min(1,p.l/40);fc.fillStyle=p.c;fc.fillRect(-p.s/2,-p.s/4,p.s,p.s/2);fc.restore()})}
 function rain(){let k=0;const t=setInterval(()=>{confetti(Math.random()*W,-10,14);if(++k>14)clearInterval(t)},120)}
-const au=new Audio('song2.mp3');au.loop=true;au.volume=0.55;au.preload='auto';let audioStarted=false;au.load();
+const au=new Audio('swt.mp3');au.loop=true;au.volume=0.55;au.preload='auto';let audioStarted=false;au.load();
 const noteEmojis=['🎵','🎶','♪','♫','🎼'];let notesInterval=null;
 function spawnNotes(){for(let i=0;i<8;i++){const n=document.createElement('div');n.className='mnote';n.textContent=noteEmojis[Math.floor(Math.random()*noteEmojis.length)];n.style.cssText=`left:${Math.random()*95}%;bottom:-30px;animation-duration:${4+Math.random()*6}s;animation-delay:${Math.random()*4}s;font-size:${.8+Math.random()*.9}rem;color:rgba(255,${150+Math.floor(Math.random()*100)},200,.85)`;document.body.appendChild(n);setTimeout(()=>n.remove(),(11+Math.random()*6)*1000)}}
 function startMusicAnim(){if(!notesInterval){notesInterval=setInterval(spawnNotes,3500);spawnNotes();}}
