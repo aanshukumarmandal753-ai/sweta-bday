@@ -108,7 +108,7 @@ h2{font-size:1.5rem}
 .top{display:flex;gap:16px;align-items:center}.mv{font-size:1.6rem;font-weight:700;color:#ffe9b0}
 .thumb{width:36px;height:36px;border-radius:8px;background-size:cover;border:1px solid #ffd76a}
 .pz{position:relative;width:315px;height:315px;border-radius:18px;overflow:hidden;background:#000;box-shadow:0 0 0 3px #ffd76a,0 0 0 9px rgba(255,215,106,.18),0 0 40px 8px rgba(255,90,170,.45),0 12px 40px rgba(0,0,0,.6)}
-.tile{position:absolute;width:105px;height:105px;background-size:315px 315px;transition:left .18s,top .18s;cursor:pointer;border:1px solid rgba(255,255,255,.25);border-radius:4px}
+.tile{position:absolute;width:105px;height:105px;background-size:315px 315px;transition:left .18s,top .18s;cursor:pointer;border:1px solid rgba(255,255,255,.25)}
 .pz.win{box-shadow:0 0 0 3px #ffd76a,0 0 60px 12px rgba(255,200,100,.8)}
 .pz.win .tile{border:none}
 .sc{position:relative;width:280px;height:170px;border-radius:16px;overflow:hidden;background:linear-gradient(135deg,#5b1a7a,#c23a8a)}
@@ -286,7 +286,7 @@ h2{font-size:1.5rem}
 <script>
 function clean(){[document.body,document.documentElement].forEach(p=>p&&[...p.childNodes].forEach(n=>{if(n.nodeType===3&&n.textContent.trim())n.remove()}))}
 document.addEventListener('DOMContentLoaded',clean);addEventListener('load',()=>{clean();setTimeout(clean,500)});
-const CFG={name:"Sweta",from:"Aanshu",welcomePass:"sweta",pin:"2007",hint:"Hint: Sweta ka birth year 💕",birthYear:2007,birthMonth:11,birthDay:16,age:19,photos:[{src:"1.jpg",cap:"Our first moment together 💞"},{src:"2.jpg",cap:"Hasna tumhara, meri jaan 😊"},{src:"3.jpg",cap:"Tumhare saath har pal khaas ✨"},{src:"4.jpg",cap:"Ye wali yaad sabse pyaari hai 🌙"}],puzzlePhoto:"3.jpg",gallery:["p1.jpg","p2.jpg","p3.jpg","p4.jpg","p5.jpg","p6.jpg","p7.jpg","p8.jpg"],wishes:["Tum meri favourite person ho, hamesha. 💖","Tumhari smile meri sabse badi khushi hai. 😊","Tum jaisi koi nahi, Sweta. 🌸","Ye saal tumhare sare sapne poore kare. ✨","Main hamesha tumhare saath hoon. 🤝","Tumne meri duniya aur bhi roshan kar di. 🌍"],finalWish:"Tumne meri whole world brighter kar di 💫",scratchTitle:"Happy Birthday Sweta! 🎉",scratchSub:"Tum meri life ka sabse pyaara gift ho 💝",letter:`My Dear bubu 🫂🥲
+const CFG={name:"Sweta",from:"Aanshu",welcomePass:"sweta",pin:"2007",hint:"Hint: Sweta ka birth year 💕",birthYear:2007,birthMonth:11,birthDay:16,age:19,photos:[{src:"1.jpg",cap:"Our first moment together 💞"},{src:"2.jpg",cap:"Hasna tumhara, meri jaan 😊"},{src:"3.jpg",cap:"Tumhare saath har pal khaas ✨"},{src:"4.jpg",cap:"Ye wali yaad sabse pyaari hai 🌙"}],puzzlePhoto:"2.jpg",gallery:["p1.jpg","p2.jpg","p3.jpg","p4.jpg","p5.jpg","p6.jpg","p7.jpg","p8.jpg"],wishes:["Tum meri favourite person ho, hamesha. 💖","Tumhari smile meri sabse badi khushi hai. 😊","Tum jaisi koi nahi, Sweta. 🌸","Ye saal tumhare sare sapne poore kare. ✨","Main hamesha tumhare saath hoon. 🤝","Tumne meri duniya aur bhi roshan kar di. 🌍"],finalWish:"Tumne meri whole world brighter kar di 💫",scratchTitle:"Happy Birthday Sweta! 🎉",scratchSub:"Tum meri life ka sabse pyaara gift ho 💝",letter:`My Dear bubu 🫂🥲
 
 Happy Birthday my dear sweetheart ❤️🥳🎂
 Sweta, I love you so much, forever and ever ♾️. This is for you.
@@ -359,7 +359,6 @@ b.onclick=()=>{b.classList.add('p');const r=b.getBoundingClientRect();confetti(r
 if(popped===CFG.wishes.length){setTimeout(()=>{$('wt').textContent=CFG.finalWish;$('wB').classList.remove('hide')},1200)}};$('bl').appendChild(b)})}
 $('wB').onclick=()=>{go('puz');initPuz()};
 let pimg,tiles,empty,moves,solved;
-async function initPuz(){pimg=await loadImg(CFG.puzzlePhoto,0);$('th').style.backgroundImage=`url(${pimg})`;shuffle()}
 function shuffle(){moves=0;solved=false;$('mv').textContent=0;$('pB').classList.add('hide');$('pz').classList.remove('win');tiles=[0,1,2,3,4,5,6,7,8];empty=8;let last=-1;for(let i=0;i<8;i++){const n=nb(empty).filter(x=>x!==last);const m=n[Math.floor(Math.random()*n.length)];sw(m);last=empty===m?last:m}moves=0;draw()}
 function nb(p){const r=[],x=p%3,y=(p/3)|0;if(x>0)r.push(p-1);if(x<2)r.push(p+1);if(y>0)r.push(p-3);if(y<2)r.push(p+3);return r}
 function sw(p){const t=tiles[p];tiles[p]=tiles[empty];tiles[empty]=t;const e=empty;empty=p;return e}
