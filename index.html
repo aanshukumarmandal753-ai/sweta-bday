@@ -284,6 +284,7 @@ h2{font-size:1.5rem}
 </div>
 <canvas id="fx"></canvas>
 <script src="intro.js"></script>
+<script src="fireworks.js"></script>
 <script>
 function clean(){[document.body,document.documentElement].forEach(p=>p&&[...p.childNodes].forEach(n=>{if(n.nodeType===3&&n.textContent.trim())n.remove()}))}
 document.addEventListener('DOMContentLoaded',clean);addEventListener('load',()=>{clean();setTimeout(clean,500)});
@@ -332,7 +333,7 @@ function checkWelcome(){const v=$('pwIn').value.trim().toLowerCase();
 if(v===CFG.welcomePass.toLowerCase()){startBgMusic();confetti(W/2,H/2,80);$('welcome').style.transition='opacity 1.2s';$('welcome').style.opacity=0;setTimeout(()=>{$('welcome').classList.remove('on');$('welcome').classList.add('hide');(window.swIntro||function(f){f()})(()=>$('gift').classList.add('on'))},1300);}
 else{$('pwHint').textContent='❌ Galat password, dobara try karo 💕';$('pwHint').classList.add('pw-err');$('pwIn').value='';setTimeout(()=>$('pwHint').classList.remove('pw-err'),500);setTimeout(()=>$('pwHint').textContent='Hint: tumhara naam 💕',1400);}}
 $('pwBtn').onclick=checkWelcome;$('pwIn').addEventListener('keydown',e=>{if(e.key==='Enter')checkWelcome()});
-$('giftBox').onclick=function(){if(this.classList.contains('open'))return;startBgMusic();this.classList.add('open');confetti(W/2,H/2-40,120);setTimeout(()=>go('lock'),1900)};
+$('giftBox').onclick=function(){if(this.classList.contains('open'))return;startBgMusic();this.classList.add('open');confetti(W/2,H/2-40,120);(window.swFireworks&&window.swFireworks(6000));setTimeout(()=>go('lock'),5800)};
 $('hint').textContent=CFG.hint;
 (function(){const n=new Date();$('clk').textContent=String(n.getHours()).padStart(2,'0')+':'+String(n.getMinutes()).padStart(2,'0')})();
 let code='';
