@@ -44,7 +44,7 @@
       'background:linear-gradient(135deg,#ffd9a0,#ff7eb6,#b79cff);-webkit-background-clip:text;background-clip:text;color:transparent;' +
       'filter:drop-shadow(0 0 18px rgba(255,126,182,.45));animation-delay:1.8s!important}' +
       '.swi-b{font:italic 500 1.5rem "Cormorant Garamond",Georgia,serif;color:#ff7eb6;animation-delay:2.6s!important}' +
-      '.swi-t{margin-top:26px;font:300 .85rem "Jost",system-ui,sans-serif;letter-spacing:.32em;color:#cdb9dc;' +
+      '.swi-t{margin-top:26px;font:300 1rem "Jost",system-ui,sans-serif;letter-spacing:.08em;color:#cdb9dc;' +
       'animation:swiup 1.2s 3.6s forwards,swipulse 2.4s 5s ease-in-out infinite!important}' +
       '.swi-go{position:absolute;left:50%;bottom:9%;transform:translateX(-50%);padding:12px 30px;border-radius:30px;' +
       'border:1px solid rgba(255,217,160,.6);background:rgba(255,255,255,.08);color:#ffe9c8;' +
@@ -77,10 +77,10 @@
       '<div class="swi-h">Happy Birthday</div>' +
       '<div class="swi-n">Sweta</div>' +
       '<div class="swi-b">my bubu ♥</div>' +
-      '<div class="swi-t">KAHIN BHI CHHUO ✨</div>' +
+      '<div class="swi-t">Tumhare dudu ki taraf se 😊😘</div>' +
       '</div>' +
       '<div class="swi-fx"></div>' +
-      '<button class="swi-go" type="button">Aage chalo 💝</button>';
+      '<button class="swi-go" type="button">Aage bhi hai bubu ji 🤓</button>';
     document.body.appendChild(root);
 
     var cv = root.querySelector('canvas');
