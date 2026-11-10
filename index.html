@@ -283,6 +283,7 @@ h2{font-size:1.5rem}
   <button class="btn" id="mAdd">➕ Add photos</button><button class="btn" id="mDone">✅ Done</button>
 </div>
 <canvas id="fx"></canvas>
+<script src="intro.js"></script>
 <script>
 function clean(){[document.body,document.documentElement].forEach(p=>p&&[...p.childNodes].forEach(n=>{if(n.nodeType===3&&n.textContent.trim())n.remove()}))}
 document.addEventListener('DOMContentLoaded',clean);addEventListener('load',()=>{clean();setTimeout(clean,500)});
@@ -328,7 +329,7 @@ function fallback(label,i){const c=document.createElement('canvas');c.width=600;
 const loadImg=(s,i)=>new Promise(r=>{const m=new Image();m.onload=()=>r(s);m.onerror=()=>r(gal.length?gal[i%gal.length]:fallback('',i));m.src=s});
 function startBgMusic(){if(!audioStarted){au.currentTime=0;au.volume=0.55;au.play().then(()=>{audioStarted=true;musicOn=true;startMusicAnim()}).catch(()=>{audioStarted=true;startMusicAnim();});}}
 function checkWelcome(){const v=$('pwIn').value.trim().toLowerCase();
-if(v===CFG.welcomePass.toLowerCase()){startBgMusic();confetti(W/2,H/2,80);$('welcome').style.transition='opacity 1.2s';$('welcome').style.opacity=0;setTimeout(()=>{$('welcome').classList.remove('on');$('welcome').classList.add('hide');$('gift').classList.add('on')},1300);}
+if(v===CFG.welcomePass.toLowerCase()){startBgMusic();confetti(W/2,H/2,80);$('welcome').style.transition='opacity 1.2s';$('welcome').style.opacity=0;setTimeout(()=>{$('welcome').classList.remove('on');$('welcome').classList.add('hide');(window.swIntro||function(f){f()})(()=>$('gift').classList.add('on'))},1300);}
 else{$('pwHint').textContent='❌ Galat password, dobara try karo 💕';$('pwHint').classList.add('pw-err');$('pwIn').value='';setTimeout(()=>$('pwHint').classList.remove('pw-err'),500);setTimeout(()=>$('pwHint').textContent='Hint: tumhara naam 💕',1400);}}
 $('pwBtn').onclick=checkWelcome;$('pwIn').addEventListener('keydown',e=>{if(e.key==='Enter')checkWelcome()});
 $('giftBox').onclick=function(){if(this.classList.contains('open'))return;startBgMusic();this.classList.add('open');confetti(W/2,H/2-40,120);setTimeout(()=>go('lock'),1900)};
