@@ -157,6 +157,7 @@ h2{font-size:1.5rem}
 #mgr{position:fixed;inset:0;z-index:200;background:#0b0610;padding:16px;overflow:auto;text-align:center}
 #mgr .btn{margin:10px 6px}
 </style>
+<link rel="stylesheet" href="fw.css">
 </head>
 <body>
 <canvas id="bg"></canvas>
@@ -333,7 +334,7 @@ function checkWelcome(){const v=$('pwIn').value.trim().toLowerCase();
 if(v===CFG.welcomePass.toLowerCase()){startBgMusic();confetti(W/2,H/2,80);$('welcome').style.transition='opacity 1.2s';$('welcome').style.opacity=0;setTimeout(()=>{$('welcome').classList.remove('on');$('welcome').classList.add('hide');(window.swIntro||function(f){f()})(()=>$('gift').classList.add('on'))},1300);}
 else{$('pwHint').textContent='❌ Galat password, dobara try karo 💕';$('pwHint').classList.add('pw-err');$('pwIn').value='';setTimeout(()=>$('pwHint').classList.remove('pw-err'),500);setTimeout(()=>$('pwHint').textContent='Hint: tumhara naam 💕',1400);}}
 $('pwBtn').onclick=checkWelcome;$('pwIn').addEventListener('keydown',e=>{if(e.key==='Enter')checkWelcome()});
-$('giftBox').onclick=function(){if(this.classList.contains('open'))return;startBgMusic();this.classList.add('open');confetti(W/2,H/2-40,120);(window.swFireworks&&window.swFireworks(6000));setTimeout(()=>go('lock'),5800)};
+$('giftBox').onclick=function(){if(this.classList.contains('open'))return;startBgMusic();this.classList.add('open');confetti(W/2,H/2-40,120);(window.swFireworks&&window.swFireworks(8000));setTimeout(()=>go('lock'),7800)};
 $('hint').textContent=CFG.hint;
 (function(){const n=new Date();$('clk').textContent=String(n.getHours()).padStart(2,'0')+':'+String(n.getMinutes()).padStart(2,'0')})();
 let code='';

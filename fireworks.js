@@ -63,6 +63,7 @@
   function swFireworks(ms) {
     ms = ms || 6000;
     css();
+    var gs = document.getElementById("gift"); if (gs) gs.classList.add("swg-fw");
     if (document.getElementById('swFw')) return;
 
     var root = document.createElement('div');
@@ -95,7 +96,7 @@
         y: H + 10,
         vx: (Math.random() - 0.5) * 0.8,
         vy: -(H * 0.013 + Math.random() * 2),
-        ty: H * (0.14 + Math.random() * 0.3),
+        ty: H * (0.3 + Math.random() * 0.3),
         c: pick(), c2: pick()
       });
     }
@@ -123,7 +124,7 @@
         if (el === 0 || nextLaunch === 0) launch();
         nextLaunch = el + 380 + Math.random() * 320;
       }
-      if (!textOn && el > 1300) { textOn = true; tx.classList.add('in'); }
+      if (!textOn && el > 700) { textOn = true; tx.classList.add('in'); }
       if (!fading && el > ms - 900) { fading = true; root.style.opacity = '0'; }
 
       ctx.globalCompositeOperation = 'destination-out';

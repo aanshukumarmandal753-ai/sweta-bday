@@ -1,0 +1,7 @@
+#swFw .swf-t{top:7%}
+#swFw .swf-t:before{content:"";position:absolute;left:4%;right:4%;top:-18px;bottom:-14px;z-index:-1;border-radius:50%;background:radial-gradient(ellipse at center,rgba(10,4,20,.88) 0%,rgba(10,4,20,.6) 55%,rgba(10,4,20,0) 78%)}
+#swFw .swf-t small{font:600 1.15rem Poppins,system-ui,sans-serif;letter-spacing:.28em;color:#fff;text-shadow:0 0 6px #000,0 0 16px rgba(255,79,163,.9)}
+#swFw .swf-t b{font:700 clamp(4rem,23vw,6.2rem)/1.05 "Dancing Script","Brush Script MT",cursive;background:none;-webkit-background-clip:border-box;background-clip:border-box;-webkit-text-fill-color:#fff;color:#fff;filter:none;animation:swfPulse2 1.6s ease-in-out infinite;text-shadow:0 0 4px #000,0 3px 0 #b0136b,0 0 22px rgba(255,79,163,.95)}
+@keyframes swfPulse2{50%{text-shadow:0 0 4px #000,0 3px 0 #b0136b,0 0 34px rgba(255,210,122,1)}}
+#gift h2,#gift .sub{transition:opacity .6s}
+#gift.swg-fw h2,#gift.swg-fw .sub{opacity:0}
