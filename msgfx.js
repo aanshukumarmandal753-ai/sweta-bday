@@ -1,3 +1,38 @@
+/* Sweta msg screen: new wish text + panda & bear couple + hearts, balloons, lights. */
+(function () {
+  'use strict';
+  var LINES = [
+    'I wish aaj ke baad tumhara har din accha jaye.',
+    'Nahi bhi gaya to main bana dunga.',
+    'Happy birthday \uD83C\uDF88\uD83C\uDF88 meri cute bubu.',
+    'Mahadev tumhe duniya ki saari khushi de.',
+    'Tum yaar aage badhti jao aur hasti raho.',
+    'Tumhe dekh ke jalne wale jalte reh jayenge \u263A\uFE0F\uD83E\uDD17\uD83D\uDE18',
+    'Main tumhare saath hoon, tumhara bubu panda boyfriend husband friend ban ke.'
+  ];
+  function css() {
+    if (document.getElementById('mfxCss')) return;
+    var s = document.createElement('style'); s.id = 'mfxCss';
+    s.textContent =
+      '#msg .mfx-cv{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}' +
+      '#msg>*:not(.mfx-cv){position:relative;z-index:1}' +
+      '#msg #msgT,#msg .sub,#msg .av{display:none}' +
+      '#msg .mfx-scene{width:230px;height:150px;flex:none}' +
+      '#msg .mfx-t{max-width:320px;font:600 .98rem/1.55 Poppins,sans-serif;color:#ffe9b0;text-shadow:0 0 12px rgba(255,200,120,.55)}' +
+      '#msg .mfx-t p{margin:0 0 7px;opacity:0;translate:0 10px}' +
+      '#msg.on .mfx-t p{animation:mfxIn .9s ease forwards}' +
+      '#msg .mfx-t p:nth-child(1){animation-delay:.5s}#msg .mfx-t p:nth-child(2){animation-delay:1.6s}' +
+      '#msg .mfx-t p:nth-child(3){animation-delay:2.7s;color:#fff;font-size:1.1rem}#msg .mfx-t p:nth-child(4){animation-delay:3.8s}' +
+      '#msg .mfx-t p:nth-child(5){animation-delay:4.9s}#msg .mfx-t p:nth-child(6){animation-delay:6s}#msg .mfx-t p:nth-child(7){animation-delay:7.1s}' +
+      '@keyframes mfxIn{to{opacity:1;translate:0 0}}' +
+      '#msg .mfx-pa{transform-origin:50% 100%;animation:mfxSwL 2.6s ease-in-out infinite;filter:drop-shadow(0 0 7px #7fd0ff)}' +
+      '#msg .mfx-be{transform-origin:50% 100%;animation:mfxSwR 2.6s ease-in-out infinite;filter:drop-shadow(0 0 7px #ff7eb6)}' +
+      '@keyframes mfxSwL{0%,100%{transform:rotate(-3deg)}50%{transform:rotate(4deg)}}' +
+      '@keyframes mfxSwR{0%,100%{transform:rotate(3deg)}50%{transform:rotate(-4deg)}}' +
+      '#msg .mfx-h{transform-origin:115px 40px;animation:mfxBeat 1.3s ease-in-out infinite}' +
+      '@keyframes mfxBeat{0%,100%{transform:scale(.8)}50%{transform:scale(1.25)}}';
+    document.head.appendChild(s);
+  }
   function scene() {
     return '<svg class="mfx-scene" viewBox="0 0 230 150">' +
       '<g class="mfx-pa"><circle cx="38" cy="50" r="12" fill="#222"/><circle cx="82" cy="50" r="12" fill="#222"/>' +
