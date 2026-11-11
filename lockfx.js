@@ -153,29 +153,35 @@
 
     function rm(el) { return function () { if (el.parentNode) el.parentNode.removeChild(el); }; }
     function rnd(a, b) { return a + Math.random() * (b - a); }
+    var MSGS = ['I love you Sweta ☺️', 'I love you bubu ji 😘', 'Aaj to aapka Happy wala birthday hai na, to khush raho 🤗🤓'];
+    var mi = 0, cur = null;
 
     function say(x, y) {
       var now = Date.now();
-      if (now - lastMsg < 2300) return;
+      if (now - lastMsg < 600) return;
       lastMsg = now;
+      if (cur && cur.parentNode) cur.parentNode.removeChild(cur);
       var m = document.createElement('div');
       m.className = 'lfx-msg';
-      m.innerHTML = '<b>I love you Sweta 💖</b>Meri bubu ji, aaj aapka Happy wala birthday hai 🤓🤓';
-      var w = Math.min(300, W * 0.84);
+      m.textContent = MSGS[mi++ % MSGS.length];
+      var w = Math.min(280, W * 0.8);
       var cx = Math.min(Math.max(x, w / 2 + 10), W - w / 2 - 10);
       var cy = Math.min(Math.max(y - 100, 90), Math.max(90, H - 200));
-      m.style.cssText = 'left:' + cx + 'px;top:' + cy + 'px;width:' + w + 'px';
+      m.style.cssText = 'left:' + cx + 'px;top:' + cy + 'px;width:' + w + 'px;font-size:1.1rem';
       fx.appendChild(m);
+      cur = m;
       var a = m.animate([
         { opacity: 0, transform: 'translate(-50%,12px) scale(.85)' },
         { opacity: 1, transform: 'translate(-50%,0) scale(1)', offset: 0.15 },
         { opacity: 1, transform: 'translate(-50%,-14px) scale(1)', offset: 0.8 },
         { opacity: 0, transform: 'translate(-50%,-40px) scale(.96)' }
-      ], { duration: 3400, easing: 'ease-out' });
+      ], { duration: 3000, easing: 'ease-out' });
       a.onfinish = rm(m);
     }
 
-    function burst(x, y) {
+
+
+    function burst(x, y, quiet) {
       if (fx.children.length > 60) return;
       var n, el, an, ang, r;
       el = document.createElement('div');
@@ -210,10 +216,10 @@
         ], { duration: rnd(700, 1100), easing: 'ease-out' });
         an.onfinish = rm(el);
       }
-      say(x, y);
+      if (!quiet) say(x, y);
     }
 
-    lock.addEventListener('pointerdown', function (e) { burst(e.clientX, e.clientY); });
+    lock.addEventListener('pointerdown', function (e) { burst(e.clientX, e.clientY, e.target.closest(".pad")); });
 
     var fonts = document.fonts && document.fonts.load ? document.fonts.load('700 30px Poppins') : Promise.resolve();
     Promise.race([fonts, new Promise(function (r) { setTimeout(r, 1200); })]).then(build, build);
