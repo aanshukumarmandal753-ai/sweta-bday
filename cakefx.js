@@ -4,7 +4,7 @@
   var L1 = 'Devi ji, aap sirf khushi deserve karte hain. Aapki aankhon mein aansu nahi aane chahiye \u263A\uFE0F\uD83E\uDD17\u2728';
   var L2 = 'Khush raha karo pagalu bubu \u263A\uFE0F\uD83E\uDD13\u2665\uFE0F\uD83C\uDF88';
   var B1 = '\uD83C\uDF2C\uFE0F candles bujhao bubu \u2728';
-  var B2 = 'Aage bhi hai kuch maata \u2665\uFE0F\uD83D\uDE4F\uD83C\uDFFB';
+  var B2 = 'Aage aur hai maata \u263A\uFE0F\u2665\uFE0F';
   function css() {
     if (document.getElementById('ckfxCss')) return;
     var s = document.createElement('style'); s.id = 'ckfxCss';
