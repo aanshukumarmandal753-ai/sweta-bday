@@ -355,7 +355,7 @@ $('msgB').onclick=()=>{go('cake');startCake()};
 $('hbd').textContent=`Happy Birthday ${CFG.name} 🎂`;$('since').textContent=`${CFG.birthDay} Nov ${CFG.birthYear}`;
 function count(id,to,d){const e=$(id),t0=performance.now();(function f(t){const k=Math.min(1,(t-t0)/d);e.textContent=Math.round(to*(1-Math.pow(1-k,3))).toLocaleString('en-IN');if(k<1)requestAnimationFrame(f)})(t0)}
 function startCake(){const b=new Date(CFG.birthYear,CFG.birthMonth-1,CFG.birthDay),t=new Date(CFG.birthYear+CFG.age,CFG.birthMonth-1,CFG.birthDay);const days=Math.round((t-b)/864e5);count('n1',CFG.age,1800);count('n2',days,2400);count('n3',days*24,2600);count('n4',days*1440,2800)}
-$('blow').onclick=function(){$('ck').classList.add('out');this.classList.add('hide');$('ckT').textContent='Wish poori ho jaye meri jaan 🤫💖';confetti(W/2,H/2,140);rain();$('toMem').classList.remove('hide')};
+$('blow').onclick=function(){$('ck').classList.add('out');this.classList.add('hide');$('ckT').textContent='Tumhare sare sapne pure kare Mahadev ☺️❤️🤗';confetti(W/2,H/2,140);rain();$('toMem').classList.remove('hide')};
 $('toMem').onclick=()=>{go('mem');initMem()};
 let imgs=[],mi=0;
 async function initMem(){if(!imgs.length)imgs=await Promise.all(CFG.photos.map((p,i)=>loadImg(p.src,i)));$('pd').innerHTML=imgs.map(()=>'<i></i>').join('');showMem()}
