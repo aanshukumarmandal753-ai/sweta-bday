@@ -8,7 +8,7 @@
   var scr, cv, ctx, fv, fx, amb, actx, band, vid, glow, sweep, W = 0, H = 0, last = 0, T = 0, entered = false, dirty = false, frN = 0;
   var panels = [], dots = [], lns = [], AM = [], PT = [], RG = [], HS, CR, PL, OR = [], EY, SS, ORB = [], EYE = [], star = null, nextStar = 2, be = 0, lastBeat = 0, lastGl = -1;
   var na = null, active = false, bgWas = false, fallback = false, warmed = false, stopTm = 0;
-  var BIAS = 0;
+  var pr = null;
 
   function css() {
     if ($('pfxCss')) return;
@@ -220,11 +220,11 @@
     new MutationObserver(function () { var h = el.classList.contains('hide'); if (was && !h) celebrate(el); was = h; }).observe(el, { attributes: true, attributeFilter: ['class'] });
   }
   function build() {
-    scr = $('wish'); var pz = $('puz'), sc = $('scr');
-    if (!scr || !pz || !sc || scr.querySelector('.pfx-cv')) return;
+    scr = $('wish'); var pz = $('puz');
+    if (!scr || !pz || scr.querySelector('.pfx-cv')) return;
     css(); sprites(); mkAmb(); media();
     var wrap = document.createElement('div'); wrap.className = 'pfx-panels';
-    [scr, pz, sc].forEach(function (src) {
+    [scr, pz].forEach(function (src) {
       var p = document.createElement('div'); p.className = 'pfx-p';
       if (src === scr) { var ch = []; for (var i = 0; i < src.childNodes.length; i++) ch.push(src.childNodes[i]); ch.forEach(function (c) { p.appendChild(c); }); }
       else while (src.firstChild) p.appendChild(src.firstChild);
@@ -234,7 +234,7 @@
     var dim = document.createElement('div'); dim.className = 'pfx-dim';
     cv = document.createElement('canvas'); cv.className = 'pfx-cv'; fv = document.createElement('canvas'); fv.className = 'pfx-fx';
     var st = document.createElement('div'); st.className = 'pfx-steps';
-    st.innerHTML = '<i class="pfx-st">🎈</i><i class="pfx-ln"></i><i class="pfx-st">🧩</i><i class="pfx-ln"></i><i class="pfx-st">✨</i>';
+    st.innerHTML = '<i class="pfx-st">🎈</i><i class="pfx-ln"></i><i class="pfx-st">🧩</i>';
     dots = [].slice.call(st.querySelectorAll('.pfx-st')); lns = [].slice.call(st.querySelectorAll('.pfx-ln'));
     band = document.createElement('div'); band.className = 'pfx-band';
     glow = document.createElement('div'); glow.className = 'pfx-gl';
@@ -243,18 +243,16 @@
     band.appendChild(glow); band.appendChild(bv);
     scr.appendChild(amb); scr.appendChild(dim); scr.appendChild(cv); scr.appendChild(st); scr.appendChild(band); scr.appendChild(wrap); scr.appendChild(fv);
     ctx = cv.getContext('2d'); fx = fv.getContext('2d'); size(); window.addEventListener('resize', size);
-    $('wB').onclick = function () { toStage(1); initPuz(); };
-    $('pB').onclick = function () { toStage(2); initScratch(); };
-    ['wB', 'pB', 'scB'].forEach(watchBtn);
+    $('wB').onclick = function () { toStage(1); if (!pr) pr = initPuz(); else pr.then(function () { shuffle(); }); };
+    ['wB', 'pB'].forEach(watchBtn);
+    try { var pi = new Image(); pi.src = CFG.puzzlePhoto; } catch (e) {}
     var wt = $('wt');
     new MutationObserver(function () { wt.classList.remove('pfx-pop'); void wt.offsetWidth; wt.classList.add('pfx-pop'); }).observe(wt, { childList: true, characterData: true, subtree: true });
     $('bl').addEventListener('pointerdown', function (e) { if (e.target.closest && e.target.closest('.b')) { ring(e.clientX, e.clientY, '#ff7eb6'); burst(e.clientX, e.clientY, 12); } });
     $('pz').addEventListener('pointerdown', function (e) { ring(e.clientX, e.clientY, GOLD); burst(e.clientX, e.clientY, 5, 2); });
-    var lt = 0, trail = function (e) { var n = Date.now(); if (n - lt < 45) return; lt = n; var t = e.touches ? e.touches[0] : e; burst(t.clientX, t.clientY, 2); };
-    $('sc').addEventListener('touchmove', trail, { passive: true }); $('sc').addEventListener('mousemove', function (e) { if (e.buttons) trail(e); });
-    var onS = function () {
+        var onS = function () {
       var on = scr.classList.contains('on');
-      if (on) { clearTimeout(stopTm); if (!entered) { entered = true; toStage(0); } startMedia(); }
+      if (on) { clearTimeout(stopTm); if (!entered) { entered = true; toStage(0); setTimeout(function () { if (!pr) pr = initPuz(); }, 2500); } startMedia(); }
       else if (active) { clearTimeout(stopTm); stopTm = setTimeout(function () { if (!scr.classList.contains('on')) { entered = false; stopMedia(); } }, 300); }
     };
     new MutationObserver(onS).observe(scr, { attributes: true, attributeFilter: ['class'] });
