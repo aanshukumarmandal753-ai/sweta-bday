@@ -3,15 +3,15 @@
   'use strict';
   try {
     var d0 = window.devicePixelRatio || 1;
-    if (d0 > 1.5) Object.defineProperty(window, 'devicePixelRatio', { get: function () { return 1.5; }, configurable: true });
+    if (d0 > 1.25) Object.defineProperty(window, 'devicePixelRatio', { get: function () { return 1.25; }, configurable: true });
   } catch (e) {}
   try {
-    var raf = window.requestAnimationFrame.bind(window), q = {}, n = 0, sch = false, lt = 0;
+    var raf = window.requestAnimationFrame.bind(window), q = {}, n = 0, sch = false, lt = 0, av = 0;
     var tick = function (ts) {
       sch = false;
       if (ts - lt < 30) { sch = true; raf(tick); return; }
       lt = ts; var c = q; q = {};
-      for (var k in c) { try { c[k](ts); } catch (e) {} }
+      for (var k in c) { try { if (c[k].name === 'animVis' && (av++ & 1)) { window.requestAnimationFrame(c[k]); continue; } c[k](ts); } catch (e) {} }
       if (!sch) { for (var j in q) { sch = true; raf(tick); break; } }
     };
     window.requestAnimationFrame = function (cb) {
@@ -22,7 +22,7 @@
     window.cancelAnimationFrame = function (id) { delete q[id]; };
   } catch (e) {}
   var st = document.createElement('style');
-  st.textContent = '.screen:not(.on) *,.screen:not(.on) *:before,.screen:not(.on) *:after{animation-play-state:paused!important}';
+  st.textContent = '.screen:not(.on) *,.screen:not(.on) *:before,.screen:not(.on) *:after{animation-play-state:paused!important}*{-webkit-backdrop-filter:none!important;backdrop-filter:none!important}';
   (document.head || document.documentElement).appendChild(st);
 
   var TOP = 'Meri cute si bubu ji mai ne ye tumhare liye apne Dil aur dimag se banaya hai☺️🫂 kaisa laga batana 🤭 love you my baby 🍼🍼';

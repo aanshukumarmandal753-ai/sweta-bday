@@ -134,8 +134,8 @@
       ctx.translate(b.x, b.y);
       ctx.rotate(Math.sin(b.wob) * .25);
       ctx.scale(b.s, b.s);
-      ctx.shadowColor = b.c[0];
-      ctx.shadowBlur = 12;
+      var gg = ctx.createRadialGradient(0, 0, 0, 0, 0, 30); gg.addColorStop(0, b.c[0]); gg.addColorStop(1, 'rgba(0,0,0,0)');
+      ctx.globalAlpha = .3; ctx.fillStyle = gg; ctx.beginPath(); ctx.arc(0, 0, 30, 0, 6.2832); ctx.fill();
       ctx.globalAlpha = .9;
       for (var side = -1; side <= 1; side += 2) {
         ctx.save();
@@ -144,7 +144,6 @@
         wing(11, 12, 11, 15, .5, b.c);
         ctx.restore();
       }
-      ctx.shadowBlur = 0;
       ctx.fillStyle = '#fdf0f7';
       ctx.beginPath();
       ctx.ellipse(0, 0, 2, 13, 0, 0, 6.2832);

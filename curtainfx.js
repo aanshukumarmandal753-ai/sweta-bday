@@ -37,6 +37,7 @@
       cv.width = W * d; cv.height = H * d;
     }
     size(); window.addEventListener('resize', size);
+    var GL = (function () { var c = document.createElement('canvas'); c.width = c.height = 64; var x = c.getContext('2d'), g = x.createRadialGradient(32, 32, 0, 32, 32, 32); g.addColorStop(0, 'rgba(127,184,255,.8)'); g.addColorStop(1, 'rgba(127,184,255,0)'); x.fillStyle = g; x.fillRect(0, 0, 64, 64); return c; })();
     var B = [], S = [], E = [], EM = ['🐼', '🧸', '💕', '🤍', '🦋'], i;
     for (i = 0; i < 5; i++) B.push({ x: Math.random() * 400, y: Math.random() * 800, s: 12 + Math.random() * 12,
       ph: Math.random() * 6, sp: 0.5 + Math.random() * 0.5, a: Math.random() * 6.28 });
@@ -53,7 +54,7 @@
     function bfly(b, t) {
       var fl = Math.abs(Math.cos(t * 4.5 * b.sp + b.ph)) * 0.8 + 0.2;
       ctx.save(); ctx.translate(b.x, b.y); ctx.rotate(Math.sin(t * b.sp + b.ph) * 0.4);
-      ctx.shadowColor = '#7fb8ff'; ctx.shadowBlur = 18;
+      ctx.globalAlpha = 0.6; ctx.drawImage(GL, -b.s * 2.2, -b.s * 2.2, b.s * 4.4, b.s * 4.4); ctx.globalAlpha = 1;
       for (var k = -1; k <= 1; k += 2) { ctx.save(); ctx.scale(k * fl, 1); wing(b.s, fl); ctx.restore(); }
       ctx.fillStyle = '#fff'; ctx.fillRect(-1.2, -b.s * 0.5, 2.4, b.s);
       ctx.restore();
