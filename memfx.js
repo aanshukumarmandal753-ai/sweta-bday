@@ -16,7 +16,7 @@
       '#mem.mfx-run>*:not(.mfx-stg):not(.mfx-cv):not(.mfx-fbg){visibility:hidden}' +
       '#mem.mfx-fin #ph,#mem.mfx-fin #cap,#mem.mfx-fin #pd{display:none}' +
       '#mem>.mfx-stg{position:absolute;inset:0;z-index:2;overflow:hidden;background:radial-gradient(ellipse at 50% 30%,#2b0a30,#0c0416 62%,#000);transition:opacity .7s}' +
-      '.mfx-stg .mfx-bg{position:absolute;inset:-10%;background-size:cover;background-position:center;filter:blur(30px) saturate(1.4);opacity:.2;animation:mfxZoom 12s ease-in-out infinite alternate}' +
+      '.mfx-stg .mfx-bg{position:absolute;inset:-10%;background-size:cover;background-position:center;opacity:.3;animation:mfxZoom 12s ease-in-out infinite alternate}' +
       '@keyframes mfxZoom{from{scale:1}to{scale:1.18}}' +
       '.mfx-au{position:absolute;width:110vmax;height:110vmax;border-radius:50%;pointer-events:none;will-change:translate;animation:mfxAu 15s ease-in-out infinite alternate}' +
       '.mfx-au.a1{left:-60vmax;top:-55vmax;background:radial-gradient(circle,rgba(255,90,170,.34),transparent 62%)}' +
@@ -28,11 +28,11 @@
       '-webkit-mask-image:radial-gradient(circle at 50% 38%,#000,transparent 62%);mask-image:radial-gradient(circle at 50% 38%,#000,transparent 62%);animation:mfxSpin 70s linear infinite}' +
       '@keyframes mfxSpin{to{transform:rotate(360deg)}}' +
       '.mfx-stg .mfx-glow{position:absolute;left:50%;top:0;width:360px;height:360px;margin:-180px 0 0 -180px;border-radius:50%;' +
-      'background:radial-gradient(circle,var(--ac),transparent 68%);opacity:.4;pointer-events:none}' +
+      'background:radial-gradient(circle,var(--ac),transparent 68%);opacity:.4;pointer-events:none;will-change:scale,opacity}' +
       '.mfx-stg .mfx-cw{position:absolute;left:0;right:0;top:8%;display:flex;justify-content:center}' +
       '.mfx-card{position:absolute;width:min(58vw,230px);aspect-ratio:5/6;padding:3px;box-sizing:border-box;' +
       'background:linear-gradient(135deg,#ffe9b0,#ff7eb6,#b79cff,#7fd0ff,#ffe9b0);box-shadow:0 0 36px var(--ac),0 0 84px rgba(255,126,182,.25)}' +
-      '.mfx-card{border-radius:28px}' +
+      '.mfx-card{border-radius:28px;will-change:scale}' +
       '.mfx-ph{position:relative;width:100%;height:100%;border-radius:inherit;overflow:hidden}' +
       '.mfx-ph i{position:absolute;inset:0;background-size:cover;background-position:center;animation:mfxKB 8s ease-in-out infinite alternate}' +
       '@keyframes mfxKB{from{scale:1.02;translate:-2% 0}to{scale:1.16;translate:2% -2%}}' +
@@ -81,7 +81,7 @@
   function T() {
     if (useV) return (performance.now() - vclock) / 1000;
     var t = aud ? aud.currentTime : 0;
-    if (t === 0 && performance.now() - startAt > 3000) { useV = true; vclock = performance.now() - 3000; }
+    if (t === 0 && performance.now() - startAt > 1500) { useV = true; vclock = performance.now() - 1500; }
     return t;
   }
   function cap(i) { try { return CFG.photos[i].cap || ''; } catch (e) { return ''; } }
@@ -190,7 +190,7 @@
     toks = (c.match(/[A-Za-z]+/g) || []).map(function (w) { return w.toUpperCase(); }); wi = 0;
     if (toks.length) showBig(toks[wi++ % toks.length]);
     var url = 'url("' + imgAt(p) + '")';
-    bgEl.style.backgroundImage = url;
+    bgEl.style.backgroundImage = thumbs[p % Math.max(1, nImg())] ? 'url("' + thumbs[p % Math.max(1, nImg())] + '")' : url;
     var old = cardEl;
     if (old) { old.className = 'mfx-card out'; setTimeout(function () { if (old.parentNode) old.parentNode.removeChild(old); }, 650); }
     cardEl = document.createElement('div'); cardEl.className = 'mfx-card s' + (p % 4) + ' in' + (p % 4);
@@ -260,7 +260,7 @@
   }
   function finish() {
     if (mode === 'fin') return;
-    mode = 'fin'; running = false;
+    mode = 'fin'; running = false; window.__mfxq = false;
     try { if (aud) aud.pause(); } catch (e) {}
     resumeBg();
     var s = stg; if (s) { s.style.opacity = 0; setTimeout(function () { if (s.parentNode) s.parentNode.removeChild(s); }, 800); }
@@ -281,14 +281,32 @@
   function cleanup() {
     try { if (aud) aud.pause(); } catch (e) {}
     if (mode === 'show') resumeBg();
-    mode = ''; running = false;
+    mode = ''; running = false; window.__mfxq = false;
     if (stg && stg.parentNode) stg.parentNode.removeChild(stg);
     var g = mem.querySelector('.mfx-grid'); if (g) g.parentNode.removeChild(g);
     var f = mem.querySelector('.mfx-fbg'); if (f) f.parentNode.removeChild(f);
     mem.classList.remove('mfx-run', 'mfx-fin'); stg = null; cardEl = null;
   }
+  var pre = null, thumbs = [], keep = [], warmed = false;
+  function warm() {
+    if (warmed) return; warmed = true;
+    try { pre = new Audio(SRC); pre.preload = 'auto'; pre.load(); } catch (e) { pre = null; }
+    try {
+      Promise.all(CFG.photos.map(function (p, i) { return loadImg(p.src, i); })).then(function (a) {
+        try { if (!imgs.length) imgs = a; } catch (e) {}
+        a.forEach(function (u, i) {
+          var m = new Image(); keep[i] = m;
+          m.onload = function () {
+            try { var c = document.createElement('canvas'); c.width = 24; c.height = 30; c.getContext('2d').drawImage(m, 0, 0, 24, 30); thumbs[i] = c.toDataURL(); } catch (e) {}
+            if (m.decode) m.decode().catch(function () {});
+          };
+          m.src = u;
+        });
+      });
+    } catch (e) {}
+  }
   function begin() {
-    running = true; mode = 'show'; ended = false; useV = false; oi = 0; ph = -1; wc = 0; es = 0; P = []; R = []; shoot = null; nextShoot = 4;
+    window.__mfxq = true; running = true; mode = 'show'; ended = false; useV = false; oi = 0; ph = -1; wc = 0; es = 0; P = []; R = []; shoot = null; nextShoot = 4;
     try { bgWas = !au.paused; au.pause(); } catch (e) { bgWas = false; }
     stg = document.createElement('div'); stg.className = 'mfx-stg';
     stg.innerHTML = '<div class="mfx-bg"></div><i class="mfx-au a1"></i><i class="mfx-au a2"></i><i class="mfx-au a3"></i><div class="mfx-rays"></div><div class="mfx-glow"></div><div class="mfx-cw"></div><div class="mfx-ln"></div><div class="mfx-fl"></div>';
@@ -296,7 +314,7 @@
     bgEl = stg.querySelector('.mfx-bg'); glowEl = stg.querySelector('.mfx-glow'); cwEl = stg.querySelector('.mfx-cw');
     lnEl = stg.querySelector('.mfx-ln'); flEl = stg.querySelector('.mfx-fl'); cardEl = null;
     mem.classList.add('mfx-run'); size();
-    aud = new Audio(SRC); aud.preload = 'auto'; startAt = performance.now();
+    aud = pre || new Audio(SRC); pre = null; aud.preload = 'auto'; startAt = performance.now();
     aud.addEventListener('ended', function () { ended = true; });
     var pr = aud.play(); if (pr && pr.catch) pr.catch(function () { useV = true; vclock = performance.now(); });
   }
@@ -321,10 +339,21 @@
     css();
     cv = document.createElement('canvas'); cv.className = 'mfx-cv'; mem.insertBefore(cv, mem.firstChild);
     ctx = cv.getContext('2d'); size(); window.addEventListener('resize', size);
-    mkSprites(); mkAmb();
+    mkSprites(); mkAmb(); setTimeout(warm, 2500);
+    var bl = $('blow'); if (bl) bl.addEventListener('click', warm);
+    var tm = $('toMem');
+    if (tm) tm.addEventListener('click', function (e) {
+      try {
+        warm(); if (running || nImg() < 1) return;
+        e.stopImmediatePropagation();
+        document.querySelectorAll('.screen').forEach(function (s) { s.classList.remove('on'); });
+        mem.style.transition = 'opacity .2s'; mem.classList.add('on'); setTimeout(function () { mem.style.transition = ''; }, 500);
+        initMem(); begin();
+      } catch (er) {}
+    }, true);
     new MutationObserver(function () {
       var on = mem.classList.contains('on');
-      if (on && !entered) { entered = true; tryStart(); } else if (!on && entered) { entered = false; try { if (aud) aud.pause(); } catch (e) {} setTimeout(function () { if (!mem.classList.contains('on')) cleanup(); }, 1000); }
+      if (on && !entered) { entered = true; tryStart(); } else if (!on && entered) { setTimeout(function () { if (!mem.classList.contains('on') && entered) { entered = false; try { if (aud) aud.pause(); } catch (e) {} cleanup(); } }, 700); }
     }).observe(mem, { attributes: true, attributeFilter: ['class'] });
     raf = requestAnimationFrame(frame);
   }

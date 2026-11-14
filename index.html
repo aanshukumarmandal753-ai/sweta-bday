@@ -316,8 +316,8 @@ const bg=$('bg'),bx=bg.getContext('2d');let W,H,P=[],C=[];
 function rs(){W=bg.width=fx.width=innerWidth;H=bg.height=fx.height=innerHeight}
 addEventListener('resize',rs);const fx=$('fx'),fc=fx.getContext('2d');rs();
 for(let i=0;i<70;i++)P.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*2.2+.6,s:Math.random()*.4+.1,p:Math.random()*6});
-(function loop(t){bx.clearRect(0,0,W,H);P.forEach(p=>{p.y-=p.s;p.x+=Math.sin(t/1500+p.p)*.25;if(p.y<-5){p.y=H+5;p.x=Math.random()*W}
-const a=.4+.6*Math.abs(Math.sin(t/900+p.p));bx.fillStyle=`rgba(255,205,90,${a})`;bx.shadowColor='#ffc83c';bx.shadowBlur=10;bx.beginPath();bx.arc(p.x,p.y,p.r,0,7);bx.fill()});
+(function loop(t){if(window.__mfxq){requestAnimationFrame(loop);return}bx.clearRect(0,0,W,H);P.forEach(p=>{p.y-=p.s;p.x+=Math.sin(t/1500+p.p)*.25;if(p.y<-5){p.y=H+5;p.x=Math.random()*W}
+const a=.4+.6*Math.abs(Math.sin(t/900+p.p));bx.fillStyle=`rgba(255,205,90,${a})`;bx.beginPath();bx.arc(p.x,p.y,p.r,0,7);bx.fill()});
 stepConfetti();requestAnimationFrame(loop)})(0);
 function confetti(x,y,n){x=x||W/2;y=y||H/2;n=n||90;const cols=['#ff4fa3','#ffd76a','#ff8a5c','#b97bff','#6ee7ff','#fff'];
 for(let i=0;i<n;i++){const a=Math.random()*6.28,v=Math.random()*9+3;C.push({x,y,vx:Math.cos(a)*v,vy:Math.sin(a)*v-5,g:.22,s:Math.random()*7+3,c:cols[i%6],l:110+Math.random()*60,r:Math.random()*6})}}
