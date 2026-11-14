@@ -22,7 +22,7 @@
     window.cancelAnimationFrame = function (id) { delete q[id]; };
   } catch (e) {}
   var st = document.createElement('style');
-  st.textContent = '.screen:not(.on) *,.screen:not(.on) *:before,.screen:not(.on) *:after{animation-play-state:paused!important}*{-webkit-backdrop-filter:none!important;backdrop-filter:none!important}';
+  st.textContent = '.screen:not(.on) *,.screen:not(.on) *:before,.screen:not(.on) *:after{animation-play-state:paused!important}*{-webkit-backdrop-filter:none!important;backdrop-filter:none!important}section.screen{transition:opacity .4s}';
   (document.head || document.documentElement).appendChild(st);
 
   var TOP = 'Meri cute si bubu ji mai ne ye tumhare liye apne Dil aur dimag se banaya hai☺️🫂 kaisa laga batana 🤭 love you my baby 🍼🍼';
@@ -46,5 +46,14 @@
     }
   }
   function go() { fix(); setTimeout(fix, 600); setTimeout(fix, 2000); }
+  document.addEventListener('DOMContentLoaded', function () {
+    try {
+      if (typeof window.go === 'function') window.go = function (id) {
+        var a = document.querySelectorAll('.screen'), i, e = document.getElementById(id);
+        for (i = 0; i < a.length; i++) a[i].classList.remove('on');
+        if (e) e.classList.add('on');
+      };
+    } catch (e) {}
+  });
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', go); else go();
 })();
